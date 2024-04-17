@@ -5,40 +5,37 @@ const CUSD_ALFAJORES_TOKEN_CONTRACT_ADDRESS =
   "0x874069fa1eb16d44d622f2e0ca25eea172369bc1";
 import { useAccount } from "wagmi";
 import BalancePage from "./balance";
-import { addContributorToDirectory } from "@/services/addContributors";
-import { pamojaAppContractAddress } from "@/utils/pamojaAppContractAddress";
+import { pamojaAppContractAddress } from "@/utils/addresses/pamojaAppContractAddress";
+import { CUSDAlfajoresContractABI } from "@/utils/abis/CUSDAlfajoresContractABI";
+import { addContributorToDirectory } from "@/services/addContributorToDirectory";
+import { getContributionsOfContributor } from "@/services/getContributionsOfContributor";
 
+// interface SendCUSDProps {
+//   _amount: number;
+//   _address: `0x${string}` | undefined;
+// }
+// export const _approveCUSDToPamojaContract = async (
+//   _signerAddress: `0x${string}` | undefined
+// ) => {
+//   if (window.ethereum) {
+//     const provider = new providers.Web3Provider(window.ethereum);
 
+//     const signer = provider.getSigner(_signerAddress);
 
+//     const CUSDAlfajoresContract = new Contract(
+//       CUSD_ALFAJORES_TOKEN_CONTRACT_ADDRESS,
+//       CUSDAlfajoresContractABI,
+//       signer
+//     );
 
-interface SendCUSDProps {
-  _amount: number;
-  _address: `0x${string}` | undefined;
-}
-export const _approveCUSDToPamojaContract = async (
-  _signerAddress: `0x${string}` | undefined
-) => {
-  if (window.ethereum) {
-    const provider = new providers.Web3Provider(window.ethereum);
+//     const approvalTxn = await CUSDAlfajoresContract.approve(
+//       pamojaAppContractAddress,
+//       parseEther("250")
+//     );
 
-    const signer = provider.getSigner(_signerAddress);
-
-    const CUSDAlfajoresContract = new Contract(
-      CUSD_ALFAJORES_TOKEN_CONTRACT_ADDRESS,
-      CUSDAlfajoresContractABI,
-      signer
-    );
-
-    const approvalTxn = await CUSDAlfajoresContract.approve(
-      pamojaAppContractAddress,
-      parseEther("250")
-    );
-
-    const receipt = await approvalTxn.wait();
-  }
-};
-
-
+//     const receipt = await approvalTxn.wait();
+//   }
+// };
 
 // export const _sendCUSD = async (_signerAddress:`0x${string}` | undefined, {
 //   _amount,
@@ -98,12 +95,14 @@ const SendCUSD: React.FC = () => {
         Create contributor
       </button>
       <br />
-      {/* <button
+      <button
         className="bg-pa_two text-first font-bold py-2 px-4 rounded mb-4 border border-pa_one"
-        onClick={sendCUSD}
+        onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+          getContributionsOfContributor(address)
+        }
       >
-        Send 5 CUSD
-      </button> */}
+        Get contributions
+      </button>
       <BalancePage></BalancePage>
     </div>
   );

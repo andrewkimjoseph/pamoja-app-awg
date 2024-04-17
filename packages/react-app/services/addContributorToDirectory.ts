@@ -1,10 +1,10 @@
 
 import { providers, Contract, ethers } from "ethers";
-import { pamojaAppContractABI } from "./../utils/pamojaAppContractABI";
+import { pamojaAppContractABI } from "../utils/abis/pamojaAppContractABI";
 
-import { AddContributor } from "./props/addContributor";
+import { AddContributorToDirectoryProps } from "../utils/props/addContributorToDirectory";
 
-import { Contributor } from "./props/contributor";
+import { Contributor } from "../utils/types/contributor";
 
 
 const PAMOJA_APP_CONTRACT_ADDRESS: `0x${string}` | undefined =
@@ -13,7 +13,7 @@ const PAMOJA_APP_CONTRACT_ADDRESS: `0x${string}` | undefined =
 
 export const addContributorToDirectory = async (
     _signerAddress: `0x${string}` | undefined,
-    { _username, _contributorAddress }: AddContributor
+    { _username, _contributorAddress }: AddContributorToDirectoryProps
   ) => {
     if (window.ethereum) {
       const provider = new providers.Web3Provider(window.ethereum);

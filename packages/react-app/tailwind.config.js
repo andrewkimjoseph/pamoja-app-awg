@@ -9,7 +9,7 @@ export const theme = {
     colors: {
       "pa_one": "#1E3148",
       "pa_two": "#F0FBFE",
-      "pa_three": "#F0FBFE",
+      "pa_three": "#FCF8FF",
     }
   },
 };
