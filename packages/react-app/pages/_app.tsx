@@ -6,7 +6,7 @@ import { injectedWallet } from "@rainbow-me/rainbowkit/wallets";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
 import { http, WagmiProvider, createConfig } from "wagmi";
-import Layout from "../components/Layout";
+import Layout from "../components/pages/index.tsx/Layout";
 import "../styles/globals.css";
 import { celo, celoAlfajores } from "wagmi/chains";
 
@@ -20,7 +20,7 @@ const connectors = connectorsForWallets(
         },
     ],
     {
-        appName: "Celo Composer",
+        appName: "Pamoja App AWG",
         projectId: "044601f65212332475a09bc14ceb3c34",
     }
 );

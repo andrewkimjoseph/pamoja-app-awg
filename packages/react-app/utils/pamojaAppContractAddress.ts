@@ -1,0 +1,2 @@
+export const pamojaAppContractAddress: `0x${string}` | undefined =
+"0xa50EB108e96461e3519829abd897F184b32d29ce";

@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@celo/abis": "^11.0.0",
+    "@celo/identity": "^5.1.2",
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.18",
     "@rainbow-me/rainbowkit": "^2.0.2",
@@ -12,7 +14,7 @@
     "next": "^13.4.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "viem": "2.8.18",
+    "viem": "2.9.16",
     "wagmi": "2.5.12",
     "sharp": "^0.32.1",
     "firebase-frameworks": "^0.11.0",
