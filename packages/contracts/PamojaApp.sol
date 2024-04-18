@@ -380,6 +380,8 @@ contract PamojaApp {
 
         allRoundsOfSavings[_savingId] += 1;
 
+
+        // Check if it was the final withdrawal.
         if (allRoundsOfSavings[_savingId] == contributionsInSavings.length) {
             allRoundsOfSavings[_savingId] = 0;
         }
@@ -387,7 +389,6 @@ contract PamojaApp {
         _updateContributionsInSaving(_savingId);
         allAmountsHeldInSavings[_savingId] = 0;
 
-        // Check if it was the final withdrawal.
     }
 
     function _getRecipientContributor(uint256 _savingId)
@@ -408,7 +409,7 @@ contract PamojaApp {
         }
 
         if (currentRoundOfSaving == 0) {
-            receivingContributorIndex = numberOfContributorsInSaving;
+            receivingContributorIndex = numberOfContributorsInSaving - 1;
         } else {
             receivingContributorIndex =
                 numberOfContributorsInSaving -
