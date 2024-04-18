@@ -3,10 +3,16 @@ import { pamojaAppContractABI } from "../utils/abis/pamojaAppContractABI";
 import { pamojaAppContractAddress } from "@/utils/addresses/pamojaAppContractAddress";
 import { CreateAmountInSavingsProps } from "@/utils/props/createAmountInSaving";
 import { _fundAmountInSaving } from "./_fundAmountInSaving";
+import { UpdateContributorInSavingProps } from "@/utils/props/updateContributorInSaving";
 
-export const createAmountInSaving = async (
+export const updateContributorInSavings = async (
   _signerAddress: `0x${string}` | undefined,
-  { _amount, _creatingContributor }: CreateAmountInSavingsProps
+  {
+    _savingId,
+    _creatingContributor,
+    _newContributor,
+    _amount,
+  }: UpdateContributorInSavingProps
 ) => {
   if (window.ethereum) {
     const provider = new providers.Web3Provider(window.ethereum);
@@ -27,14 +33,20 @@ export const createAmountInSaving = async (
     console.log(fundingSuccessful);
 
     if (fundingSuccessful) {
+
       const createAmountInSavingTxn =
-        await PamojaAppContract.createAmountInSaving(
+        await PamojaAppContract.updateContributorInSavings(
+          _savingId,
+          _creatingContributor,
+          _newContributor,
           _amount,
-          _creatingContributor
         );
 
-      const createAmountInSavingTxnResult = createAmountInSavingTxn.wait();
+      await createAmountInSavingTxn.wait();
+
     }
   }
 };
 
+const hash =
+  "0x66f0f4ba04c503c0503bfe0b9e878ed384c6873b53cfba15412a4ad214345b08";

@@ -74,6 +74,7 @@ import { createAmountInSaving } from "@/services/createAmountInSaving";
 const SendCUSD: React.FC = () => {
   const { address } = useAccount();
 
+
   return (
     <div>
       {/* <button
@@ -109,6 +110,7 @@ const SendCUSD: React.FC = () => {
         className="bg-pa_two text-first font-bold py-2 px-4 rounded mb-4 border border-pa_one"
         onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
           getContributionsOfContributor(address)
+       
         }
       >
         Get contributions
