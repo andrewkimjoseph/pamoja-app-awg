@@ -9,6 +9,7 @@ import { pamojaAppContractAddress } from "@/utils/addresses/pamojaAppContractAdd
 import { CUSDAlfajoresContractABI } from "@/utils/abis/CUSDAlfajoresContractABI";
 import { addContributorToDirectory } from "@/services/addContributorToDirectory";
 import { getContributionsOfContributor } from "@/services/getContributionsOfContributor";
+import { createAmountInSaving } from "@/services/createAmountInSaving";
 
 // interface SendCUSDProps {
 //   _amount: number;
@@ -92,7 +93,16 @@ const SendCUSD: React.FC = () => {
           })
         }
       >
-        Create contributor
+        Add contributor
+      </button>
+      <br />
+      <button
+        className="bg-pa_two text-first font-bold py-2 px-4 rounded mb-4 border border-pa_one"
+        onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+          createAmountInSaving(address, {_amount: 5, _creatingContributor: address})
+        }
+      >
+        Create amount in saving
       </button>
       <br />
       <button
