@@ -77,50 +77,6 @@ export const pamojaAppContractABI = [
 		"type": "function"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "_address",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "_username",
-				"type": "string"
-			}
-		],
-		"name": "GetContributor",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "_creatingContributor",
-				"type": "address"
-			}
-		],
-		"name": "GetSaving",
-		"type": "event"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -163,6 +119,19 @@ export const pamojaAppContractABI = [
 				"type": "tuple"
 			}
 		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_savingId",
+				"type": "uint256"
+			}
+		],
+		"name": "withdrawToRecipientContributor",
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -243,6 +212,25 @@ export const pamojaAppContractABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "_savingId",
+				"type": "uint256"
+			}
+		],
+		"name": "getContributingCreator",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "_contributorAddress",
 				"type": "address"
@@ -267,7 +255,7 @@ export const pamojaAppContractABI = [
 				"type": "uint256"
 			}
 		],
-		"name": "getContributionsOfSavings",
+		"name": "getContributionsOfSaving",
 		"outputs": [
 			{
 				"internalType": "uint256[]",
@@ -322,7 +310,26 @@ export const pamojaAppContractABI = [
 				"type": "address"
 			}
 		],
-		"name": "getLengthOfContributionsOfContributor",
+		"name": "getNumberOfContributionsOfContributor",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "getNumberOfSavingsCreatedByContributor",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -364,6 +371,37 @@ export const pamojaAppContractABI = [
 				"internalType": "struct Saving",
 				"name": "",
 				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_contributorAddress",
+				"type": "address"
+			}
+		],
+		"name": "getSavingsCreatedByContributor",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_creatingContributor",
+						"type": "address"
+					}
+				],
+				"internalType": "struct Saving[]",
+				"name": "",
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
