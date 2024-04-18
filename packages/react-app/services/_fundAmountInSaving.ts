@@ -5,10 +5,9 @@ import { CUSDAlfajoresContractABI } from "@/utils/abis/CUSDAlfajoresContractABI"
 import { CUSDAlfajoresContractAddress } from "@/utils/addresses/CUSDAlfajoresContractAddress";
 import { parseEther } from "viem";
 
-
 export const _fundAmountInSaving = async (
   _signerAddress: `0x${string}` | undefined,
-  { _amount, _creatingContributor }: CreateAmountInSavingsProps
+  { _amount }: CreateAmountInSavingsProps
 ): Promise<boolean> => {
   if (window.ethereum) {
     const provider = new providers.Web3Provider(window.ethereum);
@@ -21,16 +20,25 @@ export const _fundAmountInSaving = async (
       signer
     );
 
-  
+    try {
+      const fundAmountInSavingTxn = await CUSDAlfajoresContract.transfer(
+        pamojaAppContractAddress,
+        parseEther(`${_amount}`)
+      );
 
-    const fundAmountInSavingTxn =
-      await CUSDAlfajoresContract.transfer("0xE49B05F2c7DD51f61E415E1DFAc10B80074B001A", parseEther("0.5"));
+      const fundAmountInSavingTxnResult = await fundAmountInSavingTxn.wait();
 
-    const fundAmountInSavingTxnResult = await fundAmountInSavingTxn.wait();
+      const returnValue = ethers.utils.defaultAbiCoder.decode(
+        ["bool"],
+        fundAmountInSavingTxnResult["transactionHash"]
+      );
 
-    const returnValue = ethers.utils.defaultAbiCoder.decode(["bool"], fundAmountInSavingTxnResult["transactionHash"]);
+      return returnValue.at(0) as boolean;
+    } catch (error) {
+      console.log(error);
 
-    return returnValue.at(0) as boolean;
+      return false;
+    }
   }
 
   return false;

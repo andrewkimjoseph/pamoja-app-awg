@@ -19,22 +19,21 @@ export const createAmountInSaving = async (
       signer
     );
 
-    const fundingSuccessful = await _fundAmountInSaving(_signerAddress, {
-      _amount: _amount,
-      _creatingContributor: _creatingContributor,
-    });
+    try {
+      const fundingSuccessful = await _fundAmountInSaving(_signerAddress, {
+        _amount: _amount,
+        _creatingContributor: _creatingContributor,
+      });
 
-    console.log(fundingSuccessful);
+      if (fundingSuccessful) {
+        const createAmountInSavingTxn =
+          await PamojaAppContract.createAmountInSaving(
+            _amount,
+            _creatingContributor
+          );
 
-    if (fundingSuccessful) {
-      const createAmountInSavingTxn =
-        await PamojaAppContract.createAmountInSaving(
-          _amount,
-          _creatingContributor
-        );
-
-      const createAmountInSavingTxnResult = createAmountInSavingTxn.wait();
-    }
+        const createAmountInSavingTxnResult = createAmountInSavingTxn.wait();
+      }
+    } catch (error) {}
   }
 };
-

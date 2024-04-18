@@ -1,3 +1,3 @@
-export  type WithdrawToRecipientContributor = {
+export  type WithdrawToRecipientContributorProps = {
   _savingId: number;
 };

@@ -4,14 +4,14 @@ import { pamojaAppContractABI } from "../utils/abis/pamojaAppContractABI";
 
 import { Contributor } from "../utils/types/contributor";
 import { pamojaAppContractAddress } from "@/utils/addresses/pamojaAppContractAddress";
-import { Contributions } from "@/utils/types/contributions";
+import { Contribution } from "@/utils/types/contributions";
 
 
 
 export const getContributionsOfContributor = async (
   _signerAddress: `0x${string}` | undefined,
 
-): Promise<Contributions[]> => {
+): Promise<Contribution[]> => {
   if (window.ethereum) {
     const provider = new providers.Web3Provider(window.ethereum);
 
@@ -27,12 +27,12 @@ export const getContributionsOfContributor = async (
       await PamojaAppContract.callStatic.getContributionsOfContributor(_signerAddress);
 
 
-    const contributions: Contributions[] = [];
+    const contributions: Contribution[] = [];
 
     for (let index = 0; index < createContributorTxn.length; index++) {
       const fetchedContributor: any = createContributorTxn[index];
 
-      const contribution: Contributions = {
+      const contribution: Contribution = {
         _index: index,
         _amount: parseInt(
           fetchedContributor.toString()

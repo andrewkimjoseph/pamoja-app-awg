@@ -25,25 +25,26 @@ export const updateContributorInSavings = async (
       signer
     );
 
-    const fundingSuccessful = await _fundAmountInSaving(_signerAddress, {
-      _amount: _amount,
-      _creatingContributor: _creatingContributor,
-    });
+    try {
+      const fundingSuccessful = await _fundAmountInSaving(_signerAddress, {
+        _amount: _amount,
+        _creatingContributor: _creatingContributor,
+      });
 
-    console.log(fundingSuccessful);
 
-    if (fundingSuccessful) {
+      if (fundingSuccessful) {
+        const createAmountInSavingTxn =
+          await PamojaAppContract.updateContributorInSavings(
+            _savingId,
+            _creatingContributor,
+            _newContributor,
+            _amount
+          );
 
-      const createAmountInSavingTxn =
-        await PamojaAppContract.updateContributorInSavings(
-          _savingId,
-          _creatingContributor,
-          _newContributor,
-          _amount,
-        );
-
-      await createAmountInSavingTxn.wait();
-
+        await createAmountInSavingTxn.wait();
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 };

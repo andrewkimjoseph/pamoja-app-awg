@@ -1,4 +1,3 @@
-
 import { providers, Contract, ethers, BigNumber } from "ethers";
 import { pamojaAppContractABI } from "../utils/abis/pamojaAppContractABI";
 
@@ -6,7 +5,6 @@ import { AddContributorToDirectoryProps } from "../utils/props/addContributorToD
 
 import { Contributor } from "../utils/types/contributor";
 import { pamojaAppContractAddress } from "@/utils/addresses/pamojaAppContractAddress";
-
 
 export const addContributorToDirectory = async (
   _signerAddress: `0x${string}` | undefined,
@@ -23,10 +21,16 @@ export const addContributorToDirectory = async (
       signer
     );
 
-    const createContributorTxn =
-      await PamojaAppContract.addContributorToDirectory(_username, _signerAddress);
+    try {
+      const createContributorTxn =
+        await PamojaAppContract.addContributorToDirectory(
+          _username,
+          _signerAddress
+        );
 
-    await createContributorTxn.wait();
-
+      await createContributorTxn.wait();
+    } catch (error) {
+      console.log(error);
+    }
   }
 };

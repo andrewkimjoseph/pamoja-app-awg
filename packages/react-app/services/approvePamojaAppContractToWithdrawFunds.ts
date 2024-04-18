@@ -4,11 +4,12 @@ import { CUSDAlfajoresContractAddress } from "@/utils/addresses/CUSDAlfajoresCon
 import { pamojaAppContractAddress } from "@/utils/addresses/pamojaAppContractAddress";
 import { ApprovePamojaAppContractToWithdrawFunds } from "@/utils/props/approveToWithdrawFunds";
 import { Contract, ethers, providers } from "ethers";
+import { parseEther } from "viem";
 
 export const approvePamojaAppContractToWithdrawFunds = async (
   _signerAddress: `0x${string}` | undefined,
   { _amount }: ApprovePamojaAppContractToWithdrawFunds
-) => {
+): Promise<boolean> => {
   if (window.ethereum) {
     const provider = new providers.Web3Provider(window.ethereum);
 
@@ -26,17 +27,25 @@ export const approvePamojaAppContractToWithdrawFunds = async (
       signer
     );
 
-    const approvePamojaAppContractToWithdrawFundsTxn =
-      await CUSDAlfajoresContract.approve(PamojaAppContract, _amount);
+    try {
+      const approvePamojaAppContractToWithdrawFundsTxn =
+        await CUSDAlfajoresContract.approve(pamojaAppContractAddress, parseEther(`${_amount}`));
 
-    const approvePamojaAppContractToWithdrawFundsTxnResult =
-      await approvePamojaAppContractToWithdrawFundsTxn.wait();
+      const approvePamojaAppContractToWithdrawFundsTxnResult =
+        await approvePamojaAppContractToWithdrawFundsTxn.wait();
 
-    const success = ethers.utils.defaultAbiCoder.decode(
-      ["bool"],
-      approvePamojaAppContractToWithdrawFundsTxnResult["transactionHash"]
-    );
+      const success = ethers.utils.defaultAbiCoder.decode(
+        ["bool"],
+        approvePamojaAppContractToWithdrawFundsTxnResult["transactionHash"]
+      );
 
-    return success.at(0) as boolean;
+      return success.at(0) as boolean;
+
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
+
+  return false;
 };

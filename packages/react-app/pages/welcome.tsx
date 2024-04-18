@@ -1,18 +1,21 @@
 import { getContributionsOfContributor } from "@/services/getContributionsOfContributor";
-import { Contributions } from "@/utils/types/contributions";
+import { Contribution } from "@/utils/types/contributions";
 import { useEffect, useState } from "react";
 import React from "react";
 import Spinner from "../components/spinner";
+import { useAccount } from "wagmi";
 
 const WelcomePage: React.FC = () => {
-  const [contributions, setContributions] = useState<Contributions[]>([]);
+  const [contributions, setContributions] = useState<Contribution[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const { address } = useAccount();
+
 
   useEffect(() => {
     const fetchContributions = async () => {
       try {
-        const contributorAddress = "0xdaB7EB2409fdD974CF93357C61aEA141729AEfF5";
-        const fetchedContributions = await getContributionsOfContributor(contributorAddress);
+        const fetchedContributions = await getContributionsOfContributor(address);
         setContributions(fetchedContributions);
       } catch (error) {
         console.error("Error fetching contributions:", error);
