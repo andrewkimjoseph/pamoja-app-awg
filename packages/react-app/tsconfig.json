@@ -25,6 +25,6 @@
       "@local-contracts/*": ["../hardhat/*"]
     },
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "pages/balance.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "pages/balance.tsx", "components/pages/index.tsx"],
   "exclude": ["node_modules"]
 }
