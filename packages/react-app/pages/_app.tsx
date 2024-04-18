@@ -6,11 +6,11 @@ import { injectedWallet } from "@rainbow-me/rainbowkit/wallets";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
 import { http, WagmiProvider, createConfig } from "wagmi";
-import Layout from "../components/pages/index.tsx/Layout";
 import "../styles/globals.css";
 import { celo, celoAlfajores } from "wagmi/chains";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Layout from "@/components/pages/index.tsx/layout";
 
 const connectors = connectorsForWallets(
     [
