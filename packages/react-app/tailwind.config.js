@@ -1,4 +1,7 @@
+
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 export const content = [
   "./pages/**/*.{js,ts,jsx,tsx,mdx}",
   "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,8 +12,11 @@ export const theme = {
     colors: {
       "pa_one": "#1E3148",
       "pa_two": "#F0FBFE",
-      "pa_three": "#FCF8FF",
-    }
+      "pa_three": "#E6E8FA",
+    },
+    fontFamily: {
+      sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+    },
   },
 };
 export const plugins = [];

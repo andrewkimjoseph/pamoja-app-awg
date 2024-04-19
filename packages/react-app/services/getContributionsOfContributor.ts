@@ -23,30 +23,40 @@ export const getContributionsOfContributor = async (
       signer
     );
 
+    try {
+      
+
     const createContributorTxn: [] =
-      await PamojaAppContract.callStatic.getContributionsOfContributor(_signerAddress);
+    await PamojaAppContract.callStatic.getContributionsOfContributor(_signerAddress);
 
 
-    const contributions: Contribution[] = [];
+  const contributions: Contribution[] = [];
 
-    for (let index = 0; index < createContributorTxn.length; index++) {
-      const fetchedContributor: any = createContributorTxn[index];
+  for (let index = 0; index < createContributorTxn.length; index++) {
+    const fetchedContributor: any = createContributorTxn[index];
 
-      const contribution: Contribution = {
-        _index: index,
-        _amount: parseInt(
-          fetchedContributor.toString()
-        ),
-      };
+    const contribution: Contribution = {
+      _index: index,
+      _amount: parseInt(
+        fetchedContributor.toString()
+      ),
+    };
 
-      contributions.push(contribution);
+    contributions.push(contribution);
+  }
+
+
+
+
+
+  return contributions;
+    } catch (error) {
+
+      console.log(error);
+      return [];
+      
     }
 
-
-
-
-
-    return contributions;
 
   }
   return [];

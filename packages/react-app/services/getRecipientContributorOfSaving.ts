@@ -32,8 +32,6 @@ export const _getRecipientContributorOfSaving = async (
 
       recipientAddress = recipientContributorAddressOfSaving;
 
-      console.log(recipientAddress);
-
       return recipientAddress;
     } catch (error) {
       console.log(error);

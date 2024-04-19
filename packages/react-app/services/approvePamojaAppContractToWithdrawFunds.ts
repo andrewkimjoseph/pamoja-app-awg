@@ -39,6 +39,8 @@ export const approvePamojaAppContractToWithdrawFunds = async (
         approvePamojaAppContractToWithdrawFundsTxnResult["transactionHash"]
       );
 
+
+
       return success.at(0) as boolean;
 
     } catch (error) {

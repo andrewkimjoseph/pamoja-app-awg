@@ -10,7 +10,7 @@ import "../styles/globals.css";
 import { celo, celoAlfajores } from "wagmi/chains";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Layout from "@/components/pages/index.tsx/layout";
+import Layout from "@/components/layout";
 
 const connectors = connectorsForWallets(
     [
@@ -20,7 +20,7 @@ const connectors = connectorsForWallets(
         },
     ],
     {
-        appName: "Pamoja App AWG",
+        appName: "Pamoja App 0.1.0",
         projectId: "044601f65212332475a09bc14ceb3c34",
     }
 );
