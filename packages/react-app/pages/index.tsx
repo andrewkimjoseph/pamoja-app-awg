@@ -118,7 +118,6 @@ export default function Home() {
       setShowApproveModal(false);
       setNotificationMessage("Approval successful!");
       setShowNotificationModal(true);
-   
     } else {
       setNotificationMessage("Approval failed. Please try again.");
       setShowNotificationModal(true);
@@ -181,13 +180,12 @@ export default function Home() {
           amountApproved !== null &&
           !approvalSuccess &&
           contributions.length === 0 && (
-            <button
-              className="bg-pa_two text-first font-bold py-2 px-4 rounded mb-4 border border-pa_one"
-              onClick={() => setShowApproveModal(true)}
+            <Link
+              href="/savings"
+              className="bg-pa_three text-first font-bold py-2 px-4 rounded mb-4 border border-pa_one"
             >
               Start saving
-            
-            </button>
+            </Link>
           )}
       </div>
 
