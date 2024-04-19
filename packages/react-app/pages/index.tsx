@@ -5,25 +5,38 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { addContributorToDirectory } from "@/services/addContributorToDirectory";
 import { approvePamojaAppContractToWithdrawFunds } from "@/services/approvePamojaAppContractToWithdrawFunds";
+import { getAmountApprovedForPamojaContract } from "@/services/getAmountApprovedForPamojaContract";
+import { add } from "lodash";
+import { Contribution } from "@/utils/types/contributions";
+import Snackbar from "@/components/snackbar";
+import Spinner from "@/components/spinner";
+import Link from "next/link";
 
 export default function Home() {
   const [userAddress, setUserAddress] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const { address, isConnected } = useAccount();
   const [showModal, setShowModal] = useState(false);
-  const [showApprovalModal, setShowApprovalModal] = useState(false);
+  const [showApproveModal, setShowApproveModal] = useState(false);
   const [username, setUsername] = useState("");
-  const [approvalAmount, setApprovalAmount] = useState("");
+  const [amount, setAmount] = useState(250);
   const [contributor, setContributor] = useState<Contributor | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showUsernameError, setShowUsernameError] = useState(false);
   const [totalSaved, setTotalSaved] = useState<number>(0);
-  const [approvalSuccess, setApprovalSuccess] = useState(false);
+  const [approvalSuccess, setApprovalSuccess] = useState(false); // State to track approval success
+  const [amountApproved, setAmountApproved] = useState<number | null>(null); // State to store the amount approved
+
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [contributions, setContributions] = useState<Contribution[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
     fetchContributor();
     fetchContributions();
+    fetchContributionAmounts();
+    fetchAmountApproved();
   }, []);
 
   useEffect(() => {
@@ -32,27 +45,17 @@ export default function Home() {
     }
   }, [address, isConnected]);
 
-  const handleApprovalModalOpen = () => {
-    setShowApprovalModal(true);
-  };
-
-  const handleApprovalModalClose = () => {
-    setShowApprovalModal(false);
-    setApprovalAmount("");
-    setApprovalSuccess(false);
-  };
-
-  const handleApprovalAmountChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setApprovalAmount(event.target.value);
-  };
   const fetchContributor = async () => {
     const contributorData = await getContributor(address);
     setContributor(contributorData);
   };
 
   const fetchContributions = async () => {
+    const contributions = await getContributionsOfContributor(address);
+    setContributions(contributions);
+  };
+
+  const fetchContributionAmounts = async () => {
     const contributions = await getContributionsOfContributor(address);
     const totalSavedAmount = contributions.reduce(
       (accumulator, contribution) => accumulator + contribution._amount,
@@ -61,9 +64,10 @@ export default function Home() {
     setTotalSaved(totalSavedAmount);
   };
 
-  if (!isMounted) {
-    return null;
-  }
+  const fetchAmountApproved = async () => {
+    const amount = await getAmountApprovedForPamojaContract(address);
+    setAmountApproved(amount);
+  };
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -84,6 +88,8 @@ export default function Home() {
       setShowModal(false);
       setUsername("");
       setIsSubmitting(false);
+      setNotificationMessage("Username created successfully!");
+      setShowNotificationModal(true);
     }
   };
 
@@ -93,22 +99,45 @@ export default function Home() {
     setShowUsernameError(false);
   };
 
-  const handleApprovalSubmit = async () => {
-    const approvalResult = await approvePamojaAppContractToWithdrawFunds(
-      address,
-      { _amount: parseInt(approvalAmount) }
+  if (!isMounted) {
+    return (
+      <>
+        <Spinner />
+      </>
     );
-    setApprovalSuccess(approvalResult);
-    setApprovalAmount("");
+  }
+
+  const handleApproveModalSubmit = async () => {
+    setIsSubmitting(true);
+    const success = await approvePamojaAppContractToWithdrawFunds(address, {
+      _amount: amount,
+    });
+    setIsSubmitting(false);
+    if (success) {
+      setApprovalSuccess(true);
+      setShowApproveModal(false);
+      setNotificationMessage("Approval successful!");
+      setShowNotificationModal(true);
+   
+    } else {
+      setNotificationMessage("Approval failed. Please try again.");
+      setShowNotificationModal(true);
+    }
+  };
+
+  const closeNotificationModal = () => {
+    setShowNotificationModal(false);
+    setNotificationMessage("");
+    window.location.reload();
   };
 
   return (
-    <div className="container mx-auto bg-pa_two flex flex-col justify-start items-center w-5/6">
+    <div className="container mx-auto bg-pa_two flex flex-col justify-start items-center min-h-screen w-5/6">
       <h2 className="text-3xl font-bold mt-6 mb-2">
         Welcome{contributor && `, ${contributor._username}`}!
       </h2>
       <p className="mb-4">
-        Together, you and other can pool money and save for greater causes.
+        Together, you and others can pool money and save for greater causes.
       </p>
       {isConnected ? (
         <div className="bg-pa_one text-white p-4 rounded-lg shadow-md w-full mb-4">
@@ -120,10 +149,10 @@ export default function Home() {
           <p>No Wallet Connected</p>
         </div>
       )}
-      <div className="bg-pa_three p-4 rounded-lg shadow-md w-full mb-4">
+      <div className="bg-gray-200 p-4 rounded-lg shadow-md w-full mb-4">
         {/* Card 1 */}
         <h2 className="text-lg font-semibold">Total Saved</h2>
-        <p>Total Saved: {totalSaved} cUSD</p>
+        <p>{totalSaved} cUSD</p>
       </div>
 
       <div className="p-6">
@@ -135,24 +164,36 @@ export default function Home() {
             Get started
           </button>
         )}
-        {username && <p>Username: {username}</p>}
+        {contributor !== null &&
+          amountApproved === 0 &&
+          amountApproved !== null &&
+          !approvalSuccess && (
+            <button
+              className="bg-pa_two text-first font-bold py-2 px-4 rounded mb-4 border border-pa_one"
+              onClick={() => setShowApproveModal(true)}
+            >
+              Approve Pamoja App
+            </button>
+          )}
 
-        {contributor !== null && (
-          <button
-            className="bg-pa_one text-pa_two font-bold py-2 px-4 rounded mb-4 border border-pa_one"
-            onClick={handleApprovalModalOpen}
-          >
-            Approve amount
-          </button>
-        )}
-        {username && <p>Username: {username}</p>}
+        {contributor !== null &&
+          amountApproved! !== 0 &&
+          amountApproved !== null &&
+          !approvalSuccess &&
+          contributions.length === 0 && (
+            <button
+              className="bg-pa_two text-first font-bold py-2 px-4 rounded mb-4 border border-pa_one"
+              onClick={() => setShowApproveModal(true)}
+            >
+              Start saving
+            
+            </button>
+          )}
       </div>
-
-      {/* ... (Modal code remains the same) */}
 
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="p-6 rounded-lg shadow-lg relative bg-pa_two">
+          <div className="bg-pa_two p-6 rounded-lg shadow-lg relative">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
               onClick={handleCloseModal}
@@ -181,18 +222,16 @@ export default function Home() {
               placeholder="Enter your username"
             />
             {showUsernameError && (
-              <p className="text-red-500 mb-4">
-                Please enter a valid username.
-              </p>
+              <p className="text-red-500 mb-4">No username given.</p>
             )}
             <div className="flex justify-end">
               <button
-                className="mt-4 bg-pa_one text-pa_two py-2 px-4 rounded flex items-center"
+                className="mt-4 bg-pa_one text-pa_two font-bold py-2 px-4 rounded flex items-center"
                 onClick={handleModalSubmit}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-pa_three"></div>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-pa_two"></div>
                 ) : (
                   "Submit"
                 )}
@@ -201,13 +240,12 @@ export default function Home() {
           </div>
         </div>
       )}
-
-      {showApprovalModal && (
+      {showApproveModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="p-6 rounded-lg shadow-lg relative bg-pa_two">
+          <div className="bg-pa_three p-6 rounded-lg shadow-lg relative">
             <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 pb-4"
-              onClick={handleApprovalModalClose}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              onClick={() => setShowApproveModal(false)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -224,28 +262,51 @@ export default function Home() {
                 />
               </svg>
             </button>
-            <h2 className="text-xl font-bold mb-4 pt-4">Enter Amount to Approve</h2>
+            <h2 className="text-xl font-bold mb-4 pt-4">Approve Pamoja App</h2>
+
+            <h2 className="font-normal mb-4 pt-1">
+              Enter saving target here.{" "}
+            </h2>
+            <h2 className="font-bold mb-4 pt-1">Please note: </h2>
+
+            <h2 className="font-normal italic">
+              - This is merely an approval.{" "}
+            </h2>
+            <h2 className="font-normal italic">
+              - You can increase your target later.{" "}
+            </h2>
+
+            <h2 className="font-normal italic mb-4 pb-4">
+              - No amount will be withdrawn.{" "}
+            </h2>
             <input
               type="number"
-              value={approvalAmount}
-              onChange={handleApprovalAmountChange}
-              className="border border-gray-400 p-2 rounded mb-4"
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+              className="border border-gray-400 p-2 rounded mb-4 pt-2"
               placeholder="Enter amount"
             />
-            {approvalSuccess && (
-              <p className="text-green-500 mb-4">Approval successful!</p>
-            )}
             <div className="flex justify-end">
               <button
-                className="mt-4 bg-pa_one text-pa_two py-2 px-4 rounded flex items-center"
-                onClick={handleApprovalSubmit}
+                className="mt-4 bg-pa_one text-pa_two font-bold py-2 px-4 rounded flex items-center"
+                onClick={handleApproveModalSubmit}
+                disabled={isSubmitting}
               >
-                Approve
+                {isSubmitting ? (
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-pa_two"></div>
+                ) : (
+                  "Submit"
+                )}
               </button>
             </div>
           </div>
         </div>
       )}
+      <Snackbar
+        isOpen={showNotificationModal}
+        message={notificationMessage}
+        onClose={closeNotificationModal}
+      />
     </div>
   );
 }
