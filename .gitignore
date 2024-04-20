@@ -41,4 +41,4 @@ nb-configuration.xml
 PROPOSAL.md
 
 
-packages/react-app/.firebase/
+/react-app/.firebase/
