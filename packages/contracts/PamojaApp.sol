@@ -12,6 +12,7 @@ struct Contributor {
 struct Saving {
     uint256 _id;
     address _creatingContributor;
+    uint256 _amount;
 }
 
 contract PamojaApp {
@@ -63,37 +64,22 @@ contract PamojaApp {
         return true;
     }
 
-    function getContributorIdFromDirectory(address _contributorAddress)
-        public
-        view
-        returns (uint256)
-    {
-        if (!checkIfContributorExists(_contributorAddress)) {
-            revert("Contributor does not exist.");
-        }
-
-        uint256 contributorIndex = getContributorIndex(_contributorAddress);
-
-        Contributor memory fetchedContributor = allContributors[
-            contributorIndex
-        ];
-
-        return fetchedContributor._id;
-    }
-
-    function createAmountInSaving(uint256 _amount, address _creatingContributor)
-        public
-        returns (bool)
-    {
-        if (!checkIfContributorExists(_creatingContributor))
+    function createNewSaving(
+        uint256 _amount,
+        address _creatingContributorAddress
+    ) public returns (bool) {
+        if (!checkIfContributorExists(_creatingContributorAddress))
             revert("Creating contributor does not exist");
 
         Saving memory newSaving;
         newSaving._id = savingId++;
-        newSaving._creatingContributor = _creatingContributor;
+        newSaving._amount = _amount;
+        newSaving._creatingContributor = _creatingContributorAddress;
         allSavings.push(newSaving);
 
-        allContributorsInSavings[newSaving._id][0] = _creatingContributor;
+        allContributorsInSavings[newSaving._id][
+            0
+        ] = _creatingContributorAddress;
         allContributionsOfSavings[newSaving._id][0] = _amount;
 
         allRoundsOfSavings[newSaving._id] = 0;
@@ -105,57 +91,82 @@ contract PamojaApp {
         return true;
     }
 
-    function updateContributorInSaving(
+    function updateAmountForContributorInSaving(
+        uint256 _amount,
         uint256 _savingId,
-        address _creatingContributor,
-        address _newContributor,
-        uint256 _amount
+        address _newContributorAddress
     ) public onlyContributorInSaving(_savingId) returns (bool) {
-        if (
-            !checkIfContributorExists(_creatingContributor) ||
-            !checkIfContributorExists(_newContributor)
-        ) revert("Contributor does not exist.");
+        if (!checkIfContributorExists(_newContributorAddress))
+            revert("Creating contributor does not exist");
 
-        uint256 oldNumberOfContributorsInSaving = allNumberOfContributorsInSavings[
-                _savingId
+        Saving memory existingSaving = allSavings[_savingId];
+
+        uint256 currentNumberOfContributorsInSaving = allNumberOfContributorsInSavings[
+                existingSaving._id
             ];
 
-        allContributorsInSavings[_savingId][
-            oldNumberOfContributorsInSaving
-        ] = _newContributor;
-
-        uint256 oldAmountCurrentlyHeldInSavings = allAmountsHeldInSavings[
-            _savingId
-        ];
-        uint256 newAmountCurrentlyHeldInSavings = oldAmountCurrentlyHeldInSavings +
-                _amount;
-
-        allContributionsOfSavings[_savingId][
-            oldNumberOfContributorsInSaving
-        ] = _amount;
-
-        uint256 newNumberOfContributorsInSavings = oldNumberOfContributorsInSaving +
+        uint256 workingNumberOfContributors = currentNumberOfContributorsInSaving -
                 1;
 
-        allNumberOfContributorsInSavings[
-            _savingId
-        ] = newNumberOfContributorsInSavings;
+        uint256 oldAmountHeldInSaving = allAmountsHeldInSavings[
+            existingSaving._id
+        ];
 
-        allAmountsHeldInSavings[_savingId] = newAmountCurrentlyHeldInSavings;
+        uint256 newAmountHeldInSaving = oldAmountHeldInSaving + _amount;
+
+        allAmountsHeldInSavings[existingSaving._id] = newAmountHeldInSaving;
+
+        if (checkIfContributorIsCreatingContributor(_savingId, msg.sender)) {
+            allContributionsOfSavings[existingSaving._id][0] = _amount;
+        } else {
+            allContributionsOfSavings[existingSaving._id][
+                workingNumberOfContributors
+            ] = _amount;
+        }
 
         return true;
     }
 
-    function getSaving(uint256 _savingId, address _savingCreator)
+    function addNewContributorToSaving(
+        uint256 _savingId,
+        address _newContributorAddress
+    ) public onlyCreatingContributor(_savingId) returns (bool) {
+        if (!checkIfContributorExists(_newContributorAddress))
+            revert("Creating contributor does not exist");
+
+        Saving memory existingSaving = allSavings[_savingId];
+
+        uint256 currentNumberOfContributorsInSaving = allNumberOfContributorsInSavings[
+                _savingId
+            ];
+
+        uint256 newNumberOfContributorsInSaving = currentNumberOfContributorsInSaving +
+                1;
+
+        allContributorsInSavings[existingSaving._id][
+            currentNumberOfContributorsInSaving
+        ] = _newContributorAddress;
+
+        allNumberOfContributorsInSavings[
+            _savingId
+        ] = newNumberOfContributorsInSaving;
+
+        return true;
+    }
+
+    function getSaving(uint256 _savingId, address _creatingContributorAddress)
         public
         view
         returns (Saving memory)
     {
-        if (!checkIfContributorExists(_savingCreator)) {
+        if (!checkIfContributorExists(_creatingContributorAddress)) {
             revert("Contributor does not exist.");
         }
 
-        uint256 savingIndex = getSavingIndex(_savingId, _savingCreator);
+        uint256 savingIndex = getSavingIndex(
+            _savingId,
+            _creatingContributorAddress
+        );
 
         return allSavings[savingIndex];
     }
@@ -172,9 +183,16 @@ contract PamojaApp {
         return allRoundsOfSavings[_savingId];
     }
 
+    function getAddressOfContributorInSavings(
+        uint256 _savingId,
+        uint256 _contributorIndex
+    ) public view returns (address) {
+        return allContributorsInSavings[_savingId][_contributorIndex];
+    }
+
     function checkIfContributorExistsInSaving(
         uint256 _savingId,
-        address _checkingContributor
+        address _contributorAddress
     ) public view returns (bool) {
         uint256 numberOfContributorsInSavings = allNumberOfContributorsInSavings[
                 _savingId
@@ -187,7 +205,7 @@ contract PamojaApp {
         ) {
             if (
                 allContributorsInSavings[_savingId][contributorIndex] ==
-                _checkingContributor
+                _contributorAddress
             ) {
                 return true;
             }
@@ -289,7 +307,7 @@ contract PamojaApp {
     }
 
     function getNumberOfSavingsCreatedByContributor(
-        address _creatingContributor
+        address _creatingContributorAddress
     ) public view returns (uint256) {
         uint256 lengthOfSavingsCreatedByContributor = 0;
 
@@ -300,7 +318,7 @@ contract PamojaApp {
         ) {
             if (
                 allSavings[savingIndex]._creatingContributor ==
-                _creatingContributor
+                _creatingContributorAddress
             ) {
                 lengthOfSavingsCreatedByContributor += 1;
             }
@@ -309,13 +327,13 @@ contract PamojaApp {
         return lengthOfSavingsCreatedByContributor;
     }
 
-    function getSavingsCreatedByContributor(address _creatingContributor)
+    function getSavingsCreatedByContributor(address _creatingContributorAddress)
         public
         view
         returns (Saving[] memory)
     {
         Saving[] memory savingsCreatedByContributor = new Saving[](
-            getNumberOfSavingsCreatedByContributor(_creatingContributor)
+            getNumberOfSavingsCreatedByContributor(_creatingContributorAddress)
         );
 
         for (
@@ -329,6 +347,46 @@ contract PamojaApp {
         }
 
         return savingsCreatedByContributor;
+    }
+
+    function getSavingsOfContributor(address _contributorAddress)
+        public
+        view
+        returns (Saving[] memory)
+    {
+        uint256 numberOfContributorSavings = getNumberOfAllContributorSavings(
+            _contributorAddress
+        );
+
+        if (numberOfContributorSavings == 0) {
+            return new Saving[](0);
+        }
+
+        Saving[] memory savingsOfContributor = new Saving[](
+            numberOfContributorSavings
+        );
+
+        uint256 contributorIndex = 0;
+
+        for (
+            uint256 savingIndex = 0;
+            savingIndex < allSavings.length;
+            savingIndex++
+        ) {
+            if (
+                checkIfContributorExistsInSaving(
+                    savingIndex,
+                    _contributorAddress
+                )
+            ) {
+                savingsOfContributor[contributorIndex] = allSavings[
+                    savingIndex
+                ];
+                contributorIndex++;
+            }
+        }
+
+        return savingsOfContributor;
     }
 
     function getContributionsOfSaving(uint256 _savingId)
@@ -385,6 +443,14 @@ contract PamojaApp {
         return allSavings[_savingId]._creatingContributor;
     }
 
+    function checkIfContributorIsCreatingContributor(
+        uint256 _savingId,
+        address _contributorAddress
+    ) public view returns (bool) {
+        return
+            allSavings[_savingId]._creatingContributor == _contributorAddress;
+    }
+
     function getWithdrawalAmountFromSaving(uint256 _savingId)
         public
         view
@@ -438,9 +504,8 @@ contract PamojaApp {
     function getRecipientContributorAddressOfSaving(uint256 _savingId)
         public
         view
-        onlyCreatingContributor(_savingId)
         onlyContributorInSaving(_savingId)
-        returns (address _recipientContributor)
+        returns (address _recipientContributorAddress)
     {
         uint256 receivingContributorIndex = 0;
         uint256 currentRoundOfSaving = allRoundsOfSavings[_savingId];
@@ -452,6 +517,7 @@ contract PamojaApp {
             return allContributorsInSavings[_savingId][0];
         }
 
+        // Calculate the index based on the current round and number of contributors
         if (currentRoundOfSaving == 0) {
             receivingContributorIndex = numberOfContributorsInSaving - 1;
         } else {
@@ -459,6 +525,8 @@ contract PamojaApp {
                 numberOfContributorsInSaving -
                 currentRoundOfSaving;
         }
+
+        receivingContributorIndex -= currentRoundOfSaving;
 
         return allContributorsInSavings[_savingId][receivingContributorIndex];
     }
@@ -471,7 +539,7 @@ contract PamojaApp {
         return contributorExists[_contributorAddress];
     }
 
-    function getNumberOfContributorSavings(address _contributorAddress)
+    function getNumberOfAllContributorSavings(address _contributorAddress)
         public
         view
         returns (uint256)
@@ -485,26 +553,53 @@ contract PamojaApp {
         ) {
             Saving memory runningSaving = allSavings[savingIndex];
 
-            if (runningSaving._creatingContributor == _contributorAddress) {
-                numberOfContributorSavings++;
-                continue;
-            }
-
-            for (
-                uint256 contributorIndex = 0;
-                contributorIndex < 5;
-                contributorIndex++
+            if (
+                checkIfContributorExistsInSaving(
+                    runningSaving._id,
+                    _contributorAddress
+                )
             ) {
-                address runningContributor = msg.sender;
-
-                if (_contributorAddress == runningContributor) {
-                    numberOfContributorSavings++;
-                    break;
-                }
+                numberOfContributorSavings++;
             }
         }
 
         return numberOfContributorSavings;
+    }
+
+    function getAddressesOfContributorsOfSaving(uint256 _savingId)
+        public
+        view
+        returns (address[] memory)
+    {
+        mapping(uint256 => address)
+            storage contributorsInSaving = allContributorsInSavings[_savingId];
+
+        uint256 numberOfContributorsInSavings = getContributionsOfSaving(
+            _savingId
+        ).length;
+
+        address[] memory addressesOfContributorsInSaving = new address[](
+            numberOfContributorsInSavings
+        );
+
+        for (
+            uint256 contributorIndex = 0;
+            contributorIndex < numberOfContributorsInSavings;
+            contributorIndex++
+        ) {
+            addressesOfContributorsInSaving[
+                contributorIndex
+            ] = contributorsInSaving[contributorIndex];
+        }
+        return addressesOfContributorsInSaving;
+    }
+
+    function getContributor(address _contributorAddress)
+        public
+        view
+        returns (Contributor memory)
+    {
+        return allContributors[getContributorIndex(_contributorAddress)];
     }
 
     function getContributorIndex(address _contributorAddress)
@@ -524,18 +619,18 @@ contract PamojaApp {
         return locationIndex;
     }
 
-    function getSavingIndex(uint256 _savingId, address _creatingContributor)
-        public
-        view
-        returns (uint256)
-    {
+    function getSavingIndex(
+        uint256 _savingId,
+        address _creatingContributorAddress
+    ) public view returns (uint256) {
         uint256 savingIndex = 0;
 
         for (uint256 index = 0; index < allContributors.length; index++) {
             Saving memory runningSaving = allSavings[index];
             if (
                 runningSaving._id == _savingId &&
-                runningSaving._creatingContributor == _creatingContributor
+                runningSaving._creatingContributor ==
+                _creatingContributorAddress
             ) {
                 savingIndex = index;
                 break;

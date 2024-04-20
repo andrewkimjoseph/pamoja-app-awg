@@ -21,26 +21,33 @@
 				"name": "addContributorToDirectory",
 				"outputs": [
 					{
-						"components": [
-							{
-								"internalType": "uint256",
-								"name": "_id",
-								"type": "uint256"
-							},
-							{
-								"internalType": "address",
-								"name": "_address",
-								"type": "address"
-							},
-							{
-								"internalType": "string",
-								"name": "_username",
-								"type": "string"
-							}
-						],
-						"internalType": "struct Contributor",
+						"internalType": "bool",
 						"name": "",
-						"type": "tuple"
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_newContributorAddress",
+						"type": "address"
+					}
+				],
+				"name": "addNewContributorToSaving",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -50,11 +57,59 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_address",
+						"name": "_contributorAddress",
 						"type": "address"
 					}
 				],
 				"name": "checkIfContributorExists",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_contributorAddress",
+						"type": "address"
+					}
+				],
+				"name": "checkIfContributorExistsInSaving",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_contributorAddress",
+						"type": "address"
+					}
+				],
+				"name": "checkIfContributorIsCreatingContributor",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -74,31 +129,62 @@
 					},
 					{
 						"internalType": "address",
-						"name": "_creatingContributor",
+						"name": "_creatingContributorAddress",
 						"type": "address"
 					}
 				],
-				"name": "createAmountInSaving",
+				"name": "createNewSaving",
 				"outputs": [
 					{
-						"components": [
-							{
-								"internalType": "uint256",
-								"name": "_id",
-								"type": "uint256"
-							},
-							{
-								"internalType": "address",
-								"name": "_creatingContributor",
-								"type": "address"
-							}
-						],
-						"internalType": "struct Saving",
+						"internalType": "bool",
 						"name": "",
-						"type": "tuple"
+						"type": "bool"
 					}
 				],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_contributorIndex",
+						"type": "uint256"
+					}
+				],
+				"name": "getAddressOfContributorInSavings",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
+					}
+				],
+				"name": "getAddressesOfContributorsOfSaving",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -146,30 +232,16 @@
 								"internalType": "address",
 								"name": "_creatingContributor",
 								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_amount",
+								"type": "uint256"
 							}
 						],
 						"internalType": "struct Saving[]",
 						"name": "",
 						"type": "tuple[]"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_savingId",
-						"type": "uint256"
-					}
-				],
-				"name": "getContributingCreator",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -217,11 +289,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_address",
+						"name": "_contributorAddress",
 						"type": "address"
 					}
 				],
-				"name": "getContributorFromDirectory",
+				"name": "getContributor",
 				"outputs": [
 					{
 						"components": [
@@ -257,6 +329,82 @@
 						"type": "address"
 					}
 				],
+				"name": "getContributorIndex",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
+					}
+				],
+				"name": "getCreatingContributor",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
+					}
+				],
+				"name": "getCurrentRoundOfSaving",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_contributorAddress",
+						"type": "address"
+					}
+				],
+				"name": "getNumberOfAllContributorSavings",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_contributorAddress",
+						"type": "address"
+					}
+				],
 				"name": "getNumberOfContributionsOfContributor",
 				"outputs": [
 					{
@@ -272,7 +420,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_address",
+						"name": "_creatingContributorAddress",
 						"type": "address"
 					}
 				],
@@ -293,10 +441,29 @@
 						"internalType": "uint256",
 						"name": "_savingId",
 						"type": "uint256"
+					}
+				],
+				"name": "getRecipientContributorAddressOfSaving",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "_recipientContributorAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
 					},
 					{
 						"internalType": "address",
-						"name": "_savingCreator",
+						"name": "_creatingContributorAddress",
 						"type": "address"
 					}
 				],
@@ -313,6 +480,11 @@
 								"internalType": "address",
 								"name": "_creatingContributor",
 								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_amount",
+								"type": "uint256"
 							}
 						],
 						"internalType": "struct Saving",
@@ -326,8 +498,32 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
+					},
+					{
 						"internalType": "address",
-						"name": "_contributorAddress",
+						"name": "_creatingContributorAddress",
+						"type": "address"
+					}
+				],
+				"name": "getSavingIndex",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_creatingContributorAddress",
 						"type": "address"
 					}
 				],
@@ -344,6 +540,11 @@
 								"internalType": "address",
 								"name": "_creatingContributor",
 								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_amount",
+								"type": "uint256"
 							}
 						],
 						"internalType": "struct Saving[]",
@@ -357,27 +558,12 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "_savingId",
-						"type": "uint256"
-					},
-					{
 						"internalType": "address",
-						"name": "_creatingContributor",
+						"name": "_contributorAddress",
 						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "_newContributor",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_amount",
-						"type": "uint256"
 					}
 				],
-				"name": "updateContributorInSaving",
+				"name": "getSavingsOfContributor",
 				"outputs": [
 					{
 						"components": [
@@ -390,11 +576,96 @@
 								"internalType": "address",
 								"name": "_creatingContributor",
 								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_amount",
+								"type": "uint256"
 							}
 						],
-						"internalType": "struct Saving",
+						"internalType": "struct Saving[]",
 						"name": "",
-						"type": "tuple"
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_contributorAddress",
+						"type": "address"
+					}
+				],
+				"name": "getTotalAmountOfContributionsOfContributor",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
+					}
+				],
+				"name": "getWithdrawalAmountFromSaving",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
+					}
+				],
+				"name": "makeWithdrawalToRecipientContributor",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_savingId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_newContributorAddress",
+						"type": "address"
+					}
+				],
+				"name": "updateAmountForContributorInSaving",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -408,8 +679,14 @@
 						"type": "uint256"
 					}
 				],
-				"name": "withdrawToRecipientContributor",
-				"outputs": [],
+				"name": "updateSavingAfterWithdrawal",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			}
@@ -474,11 +751,11 @@
 			]
 		},
 		"packages/contracts/PamojaApp.sol": {
-			"keccak256": "0xddf66aebab8015d6e08c69c02d6c55db78ed219c9ab2db1019fa65415022ce7f",
+			"keccak256": "0x41fd6e9abf43271f9837b76f782cc8630cd57d61f8dd2114a1e3736ffa1f6a77",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e1da98aa4bf26fad8eedd6a1384591498c3536c510176212c0b40f7453d69bb0",
-				"dweb:/ipfs/QmdKoUwQT9mCTF9NuhJewsQUQJjqRzsBbBeUZWcaCDbhLr"
+				"bzz-raw://93f08bd0f7f8ccb69196280bb832e5f51cdecab829cdbea865066772bb6935ab",
+				"dweb:/ipfs/QmciyggY24cB59HG9bu89MR17ZkCRB9PDjMw6uQho2Hmm9"
 			]
 		}
 	},
