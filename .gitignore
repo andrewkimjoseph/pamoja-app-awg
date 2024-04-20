@@ -39,3 +39,6 @@ nb-configuration.xml
 *.swp
 
 PROPOSAL.md
+
+
+packages/react-app/.firebase/
