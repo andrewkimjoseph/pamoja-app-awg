@@ -1,12 +1,12 @@
 import { providers, Contract, ethers } from "ethers";
 import { pamojaAppContractABI } from "../utils/abis/pamojaAppContractABI";
 import { pamojaAppContractAddress } from "@/utils/addresses/pamojaAppContractAddress";
-import { CreateAmountInSavingsProps } from "@/utils/props/createAmountInSaving";
-import { _fundAmountInSaving } from "./_fundAmountInSaving";
+import { CreateNewSavingProps } from "@/utils/props/createAmountInSaving";
+import { _fundAmountInSaving } from "./fundAmountInSaving";
 
-export const createAmountInSaving = async (
+export const createNewSaving = async (
   _signerAddress: `0x${string}` | undefined,
-  { _amount, _creatingContributor }: CreateAmountInSavingsProps
+  { _amount, _creatingContributor }: CreateNewSavingProps
 ) => {
   if (window.ethereum) {
     const provider = new providers.Web3Provider(window.ethereum);
@@ -21,12 +21,12 @@ export const createAmountInSaving = async (
 
     try {
       const createAmountInSavingTxn =
-        await PamojaAppContract.createAmountInSaving(
+        await PamojaAppContract.createNewSaving(
           _amount,
           _creatingContributor
         );
 
-      const createAmountInSavingTxnResult = createAmountInSavingTxn.wait();
+      await createAmountInSavingTxn.wait();
     } catch (error) {}
   }
 };

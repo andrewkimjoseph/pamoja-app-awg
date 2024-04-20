@@ -6,7 +6,7 @@ import { GetRecipientContributorOfSaving } from "@/utils/props/getRecipientContr
 import { Contribution } from "@/utils/types/contributions";
 import { Contributor } from "@/utils/types/contributor";
 
-export const _getRecipientContributorOfSaving = async (
+export const getRecipientContributorOfSaving = async (
   _signerAddress: `0x${string}` | undefined,
   { _savingId }: GetRecipientContributorOfSaving
 ): Promise<`0x${string}` | undefined> => {

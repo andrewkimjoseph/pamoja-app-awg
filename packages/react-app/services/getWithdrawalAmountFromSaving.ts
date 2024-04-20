@@ -4,7 +4,7 @@ import { pamojaAppContractABI } from "../utils/abis/pamojaAppContractABI";
 import { pamojaAppContractAddress } from "@/utils/addresses/pamojaAppContractAddress";
 import { GetWithdrawalAmountFromSavingProps } from "@/utils/props/getWithdrawalAmountFromSaving";
 
-export const _getWithdrawalAmountFromSaving = async (
+export const getWithdrawalAmountFromSaving = async (
   _signerAddress: `0x${string}` | undefined,
   { _savingId }: GetWithdrawalAmountFromSavingProps
 ): Promise<number | null>  => {

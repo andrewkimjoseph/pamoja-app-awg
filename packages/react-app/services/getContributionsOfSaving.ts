@@ -9,7 +9,7 @@ import { Contribution } from "@/utils/types/contributions";
 
 
 export const getContributionsOfSaving = async (
-  _signerAddress: `0x${string}` | undefined,
+  _signerAddress: `0x${string}` | undefined, _savingId: number
 
 ): Promise<Contribution[]> => {
   if (window.ethereum) {
@@ -27,7 +27,7 @@ export const getContributionsOfSaving = async (
       
 
     const createContributorTxn: [] =
-    await PamojaAppContract.callStatic.getContributionsOfContributor(_signerAddress);
+    await PamojaAppContract.callStatic.getContributionsOfSaving(_savingId);
 
 
   const contributions: Contribution[] = [];

@@ -3,7 +3,7 @@ import { pamojaAppContractAddress } from "@/utils/addresses/pamojaAppContractAdd
 import { UpdateSavingAfterWithdrawal } from "@/utils/props/updateSavingAfterWithdrawal";
 import { pamojaAppContractABI } from "@/utils/abis/pamojaAppContractABI";
 
-export const _updateSavingAfterWithdrawal = async (
+export const updateSavingAfterWithdrawal = async (
     _signerAddress: `0x${string}` | undefined,
     { _savingId }: UpdateSavingAfterWithdrawal
 ) => {

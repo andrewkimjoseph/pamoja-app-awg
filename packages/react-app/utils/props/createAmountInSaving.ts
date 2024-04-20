@@ -1,4 +1,4 @@
-export   type CreateAmountInSavingsProps = {
+export   type CreateNewSavingProps = {
   _amount: number;
-  _creatingContributor: `0x${string}` | undefined;
+  _creatingContributor: string;
 };

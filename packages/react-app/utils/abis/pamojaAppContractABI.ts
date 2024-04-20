@@ -32,11 +32,11 @@ export const pamojaAppContractABI = [
 			},
 			{
 				"internalType": "address",
-				"name": "_contributorAddress",
+				"name": "_newContributorAddress",
 				"type": "address"
 			}
 		],
-		"name": "addContributorToSaving",
+		"name": "addNewContributorToSaving",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -75,7 +75,7 @@ export const pamojaAppContractABI = [
 			},
 			{
 				"internalType": "address",
-				"name": "_checkingContributor",
+				"name": "_contributorAddress",
 				"type": "address"
 			}
 		],
@@ -127,7 +127,7 @@ export const pamojaAppContractABI = [
 				"type": "address"
 			}
 		],
-		"name": "createAmountInSaving",
+		"name": "createNewSaving",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -136,6 +136,49 @@ export const pamojaAppContractABI = [
 			}
 		],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_savingId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_contributorIndex",
+				"type": "uint256"
+			}
+		],
+		"name": "getAddressOfContributorInSavings",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_savingId",
+				"type": "uint256"
+			}
+		],
+		"name": "getAddressesOfContributorsOfSaving",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -332,7 +375,7 @@ export const pamojaAppContractABI = [
 				"type": "address"
 			}
 		],
-		"name": "getNumberOfContributionsOfContributor",
+		"name": "getNumberOfAllContributorSavings",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -351,7 +394,7 @@ export const pamojaAppContractABI = [
 				"type": "address"
 			}
 		],
-		"name": "getNumberOfContributorSavings",
+		"name": "getNumberOfContributionsOfContributor",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -366,30 +409,11 @@ export const pamojaAppContractABI = [
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_creatingContributor",
+				"name": "_creatingContributorAddress",
 				"type": "address"
 			}
 		],
 		"name": "getNumberOfSavingsCreatedByContributor",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_creatingContributor",
-				"type": "address"
-			}
-		],
-		"name": "getNumberOfSavingsOfContributor",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -412,7 +436,7 @@ export const pamojaAppContractABI = [
 		"outputs": [
 			{
 				"internalType": "address",
-				"name": "_recipientContributor",
+				"name": "_recipientContributorAddress",
 				"type": "address"
 			}
 		],
@@ -428,7 +452,7 @@ export const pamojaAppContractABI = [
 			},
 			{
 				"internalType": "address",
-				"name": "_savingCreator",
+				"name": "_creatingContributorAddress",
 				"type": "address"
 			}
 		],
@@ -483,7 +507,7 @@ export const pamojaAppContractABI = [
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_creatingContributor",
+				"name": "_creatingContributorAddress",
 				"type": "address"
 			}
 		],
@@ -606,45 +630,11 @@ export const pamojaAppContractABI = [
 			},
 			{
 				"internalType": "address",
-				"name": "_contributingAddress",
+				"name": "_newContributorAddress",
 				"type": "address"
 			}
 		],
-		"name": "updateAmountInSaving",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_savingId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "_creatingContributor",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_newContributor",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "updateContributorInSaving",
+		"name": "updateAmountForNewContributorInSaving",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -675,3 +665,5 @@ export const pamojaAppContractABI = [
 		"type": "function"
 	}
 ]
+
+

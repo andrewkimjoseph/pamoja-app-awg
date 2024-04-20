@@ -6,7 +6,6 @@ import { useAccount } from "wagmi";
 import { addContributorToDirectory } from "@/services/addContributorToDirectory";
 import { approvePamojaAppContractToWithdrawFunds } from "@/services/approvePamojaAppContractToWithdrawFunds";
 import { getAmountApprovedForPamojaContract } from "@/services/getAmountApprovedForPamojaContract";
-import { add } from "lodash";
 import { Contribution } from "@/utils/types/contributions";
 import Snackbar from "@/components/snackbar";
 import Spinner from "@/components/spinner";
@@ -27,8 +26,8 @@ export default function Home() {
   const [approvalSuccess, setApprovalSuccess] = useState(false); // State to track approval success
   const [amountApproved, setAmountApproved] = useState<number | null>(null); // State to store the amount approved
 
-  const [showNotificationModal, setShowNotificationModal] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState("");
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const [contributions, setContributions] = useState<Contribution[]>([]);
 
   useEffect(() => {
@@ -46,7 +45,7 @@ export default function Home() {
   }, [address, isConnected]);
 
   const fetchContributor = async () => {
-    const contributorData = await getContributor(address);
+    const contributorData = await getContributor(address, address as string);
     setContributor(contributorData);
   };
 
@@ -88,8 +87,8 @@ export default function Home() {
       setShowModal(false);
       setUsername("");
       setIsSubmitting(false);
-      setNotificationMessage("Username created successfully!");
-      setShowNotificationModal(true);
+      setSnackbarMessage("Username created successfully!");
+      setShowSnackbar(true);
     }
   };
 
@@ -116,17 +115,17 @@ export default function Home() {
     if (success) {
       setApprovalSuccess(true);
       setShowApproveModal(false);
-      setNotificationMessage("Approval successful!");
-      setShowNotificationModal(true);
+      setSnackbarMessage("Approval successful!");
+      setShowSnackbar(true);
     } else {
-      setNotificationMessage("Approval failed. Please try again.");
-      setShowNotificationModal(true);
+      setSnackbarMessage("Approval failed. Please try again.");
+      setShowSnackbar(true);
     }
   };
 
   const closeNotificationModal = () => {
-    setShowNotificationModal(false);
-    setNotificationMessage("");
+    setShowSnackbar(false);
+    setSnackbarMessage("");
     window.location.reload();
   };
 
@@ -150,7 +149,7 @@ export default function Home() {
       )}
       <div className="bg-gray-200 p-4 rounded-lg shadow-md w-full mb-4">
         {/* Card 1 */}
-        <h2 className="text-lg font-semibold">Total Saved</h2>
+        <h2 className="text-lg font-semibold">Current Total Savings:</h2>
         <p>{totalSaved} cUSD</p>
       </div>
 
@@ -178,13 +177,12 @@ export default function Home() {
         {contributor !== null &&
           amountApproved! !== 0 &&
           amountApproved !== null &&
-          !approvalSuccess &&
-          contributions.length === 0 && (
+          !approvalSuccess && (
             <Link
               href="/savings"
               className="bg-pa_three text-first font-bold py-2 px-4 rounded mb-4 border border-pa_one"
             >
-              Start saving
+              Go to savings
             </Link>
           )}
       </div>
@@ -301,8 +299,8 @@ export default function Home() {
         </div>
       )}
       <Snackbar
-        isOpen={showNotificationModal}
-        message={notificationMessage}
+        isOpen={showSnackbar}
+        message={snackbarMessage}
         onClose={closeNotificationModal}
       />
     </div>

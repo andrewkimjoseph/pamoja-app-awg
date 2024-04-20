@@ -1,13 +1,13 @@
 import { providers, Contract, ethers } from "ethers";
 import { pamojaAppContractAddress } from "@/utils/addresses/pamojaAppContractAddress";
-import { CreateAmountInSavingsProps } from "@/utils/props/createAmountInSaving";
+import { CreateNewSavingProps } from "@/utils/props/createAmountInSaving";
 import { CUSDAlfajoresContractABI } from "@/utils/abis/CUSDAlfajoresContractABI";
 import { CUSDAlfajoresContractAddress } from "@/utils/addresses/CUSDAlfajoresContractAddress";
 import { parseEther } from "viem";
 
 export const _fundAmountInSaving = async (
   _signerAddress: `0x${string}` | undefined,
-  { _amount }: CreateAmountInSavingsProps
+  { _amount }: CreateNewSavingProps
 ): Promise<boolean> => {
   if (window.ethereum) {
     const provider = new providers.Web3Provider(window.ethereum);

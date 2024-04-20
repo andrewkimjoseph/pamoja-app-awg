@@ -13,6 +13,7 @@ export const theme = {
       "pa_one": "#1E3148",
       "pa_two": "#F0FBFE",
       "pa_three": "#E6E8FA",
+      "pa_four": "#A5E8D3"
     },
     fontFamily: {
       sans: ['Inter var', ...defaultTheme.fontFamily.sans],

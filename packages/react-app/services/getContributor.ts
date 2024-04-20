@@ -5,7 +5,7 @@ import { Contributor } from "../utils/types/contributor";
 import { pamojaAppContractAddress } from "@/utils/addresses/pamojaAppContractAddress";
 
 export const getContributor = async (
-  _signerAddress: `0x${string}` | undefined
+  _signerAddress: `0x${string}` | undefined, _contributorAddress: string
 ): Promise<Contributor | null> => {
   let contributor: Contributor | null = null;
 
@@ -23,12 +23,12 @@ export const getContributor = async (
     try {
 
         const checkIfContributorExists : boolean =
-        await PamojaAppContract.callStatic.checkIfContributorExists(_signerAddress);
+        await PamojaAppContract.callStatic.checkIfContributorExists(_contributorAddress);
 
         if (checkIfContributorExists) {
 
             const getContributorTxn =
-            await PamojaAppContract.callStatic.getContributor(_signerAddress);
+            await PamojaAppContract.callStatic.getContributor(_contributorAddress);
     
           contributor = {
             _id: parseInt(getContributorTxn["_id"].toString()),
