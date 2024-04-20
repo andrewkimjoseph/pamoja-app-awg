@@ -5,15 +5,15 @@ import { CreateNewSavingProps } from "@/utils/props/createAmountInSaving";
 import { _fundAmountInSaving } from "./fundAmountInSaving";
 
 
-type UpdateAmountForNewContributorInSaving = {
+type UpdateAmountForContributorInSavingProps = {
   _amount: number;
   _savingId: number;
   _newContributorAddress: string;
 
 }
-export const updateAmountForNewContributorInSaving = async (
+export const updateAmountForContributorInSaving = async (
   _signerAddress: `0x${string}` | undefined,
-  { _amount, _savingId, _newContributorAddress }: UpdateAmountForNewContributorInSaving
+  { _amount, _savingId, _newContributorAddress }: UpdateAmountForContributorInSavingProps
 ): Promise<boolean> => {
   if (window.ethereum) {
     const provider = new providers.Web3Provider(window.ethereum);
@@ -28,7 +28,7 @@ export const updateAmountForNewContributorInSaving = async (
 
     try {
       const updateAmountForNewContributorInSavingTxn =
-        await PamojaAppContract.updateAmountForNewContributorInSaving(
+        await PamojaAppContract.updateAmountForContributorInSaving(
           _amount,
           _savingId,
           _newContributorAddress

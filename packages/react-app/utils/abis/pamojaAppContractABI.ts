@@ -226,6 +226,11 @@ export const pamojaAppContractABI = [
 						"internalType": "address",
 						"name": "_creatingContributor",
 						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
 					}
 				],
 				"internalType": "struct Saving[]",
@@ -469,6 +474,11 @@ export const pamojaAppContractABI = [
 						"internalType": "address",
 						"name": "_creatingContributor",
 						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
 					}
 				],
 				"internalType": "struct Saving",
@@ -524,6 +534,11 @@ export const pamojaAppContractABI = [
 						"internalType": "address",
 						"name": "_creatingContributor",
 						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
 					}
 				],
 				"internalType": "struct Saving[]",
@@ -555,6 +570,11 @@ export const pamojaAppContractABI = [
 						"internalType": "address",
 						"name": "_creatingContributor",
 						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
 					}
 				],
 				"internalType": "struct Saving[]",
@@ -634,7 +654,7 @@ export const pamojaAppContractABI = [
 				"type": "address"
 			}
 		],
-		"name": "updateAmountForNewContributorInSaving",
+		"name": "updateAmountForContributorInSaving",
 		"outputs": [
 			{
 				"internalType": "bool",

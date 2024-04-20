@@ -1,8 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { Saving } from "@/utils/types/saving";
-import Link from "next/link";
 import { getContributionsOfSaving } from "@/services/getContributionsOfSaving";
 import { Contribution } from "@/utils/types/contributions";
 import { getAddressOfContributorInSavings } from "@/services/getAddressOfContributorInSavings";
@@ -12,14 +10,15 @@ import { addNewContributorToSaving } from "@/services/addNewContributorToSaving"
 import { Contributor } from "@/utils/types/contributor";
 import { getCreatingContributor } from "@/services/getCreatingContributor";
 import { getAddressesOfContributorsOfSaving } from "@/services/getAddressesOfContributorsOfSavings";
-import CustomDialog from "@/components/fundingDialog";
 import { _fundAmountInSaving } from "@/services/fundAmountInSaving";
-import { updateAmountForNewContributorInSaving } from "@/services/updateAmountForNewContributorInSaving";
+import { updateAmountForContributorInSaving } from "@/services/updateAmountForContributorInSaving";
 import FundingDialog from "@/components/fundingDialog";
 import WithdrawingDialog from "@/components/withdrawingDialog";
 import { updateSavingAfterWithdrawal } from "@/services/updateSavingAfterWithdrawal";
 import { getRecipientContributorOfSaving } from "@/services/getRecipientContributorOfSaving";
 import { withdrawToRecipientContributor } from "@/services/withdrawToRecipientContributor";
+import { Saving } from "@/utils/types/saving";
+import { getSaving } from "@/services/getSaving";
 
 const SavingPage = () => {
   const router = useRouter();
@@ -45,9 +44,10 @@ const SavingPage = () => {
   const [creatingContributor, setCreatingContributor] = useState("");
 
   const [contributor, setContributor] = useState<Contributor>();
+  const [showSaving, setShowSaving] = useState<Saving>();
 
-
-  const [recipientContributor, setReceipientContributor] = useState<Contributor>();
+  const [recipientContributor, setReceipientContributor] =
+    useState<Contributor>();
 
   const [addressesOfContributors, setAddressesOfContributors] = useState<[]>();
 
@@ -65,50 +65,50 @@ const SavingPage = () => {
       }
     };
     const fetchSavings = async () => {
-
       try {
         const savingsData = await getContributionsOfSaving(address, Number(id));
         setContributions(savingsData);
-      } catch (error) {
-        
-      }
-
+      } catch (error) {}
     };
 
-    const currentContributor = async () => {try {
-      const contributor = await getContributor(address, address as string);
-      setContributor(contributor!);
-    } catch (error) {
-      
-    }
+    const currentSaving = async () => {
+      try {
+        const saving = await getSaving(address, {
+          _savingId: Number(id),
+          _creatingContributorAddress: String(addressesOfContributors?.at(0)),
+        });
+        setShowSaving(saving!);
+        console.log(saving);
+      } catch (error) {}
+    };
 
+    const currentContributor = async () => {
+      try {
+        const contributor = await getContributor(address, address as string);
+        setContributor(contributor!);
+      } catch (error) {}
     };
 
     const receipientContributor = async () => {
-
       try {
+        const receipientContributorAddress =
+          await getRecipientContributorOfSaving(address, {
+            _savingId: Number(id),
+          });
 
-        const receipientContributorAddress = await getRecipientContributorOfSaving(address, {_savingId: Number(id)});
-    
-        const recipientContributor = await getContributor(address, receipientContributorAddress as string);
+        const recipientContributor = await getContributor(
+          address,
+          receipientContributorAddress as string
+        );
         setReceipientContributor(recipientContributor!);
-        
-      } catch (error) {
-        
-      }
-
-
+      } catch (error) {}
     };
 
     const creatingContributor = async () => {
       try {
-        
         const contributor = await getCreatingContributor(address, Number(id));
         setCreatingContributor(contributor!);
-      } catch (error) {
-        
-      }
-
+      } catch (error) {}
     };
 
     setIsRevealingContributor(Array<boolean>(contributions.length).fill(false));
@@ -118,6 +118,7 @@ const SavingPage = () => {
     creatingContributor();
     receipientContributor();
     fetchContributorAddresses();
+    currentSaving();
   }, []);
 
   const setIsRevealingContributorAtIndex = (
@@ -138,8 +139,6 @@ const SavingPage = () => {
       return newArray;
     });
   };
-
-
 
   const handleAddContributor = async () => {
     setShowAddContributorModal(true);
@@ -195,7 +194,6 @@ const SavingPage = () => {
     setIsFundingSavingAtIndex(contributionIndex, true);
   };
 
-
   const closeConfirmationDialog = async () => {
     setShowFundingDialog(false);
     const contributionIndex = Number(
@@ -203,20 +201,18 @@ const SavingPage = () => {
     );
     setIsFundingSavingAtIndex(contributionIndex, false);
   };
-  
+
   const openWithdrawDialog = async () => {
-        setWithdrawing(true);
+    setWithdrawing(true);
     setShowWithdrawDialog(true);
   };
-
 
   const closeWithdrawDialog = async () => {
     setWithdrawing(false);
     setShowWithdrawDialog(false);
   };
 
-
-    const handleWithdrawal = async () => {
+  const handleWithdrawal = async () => {
     // Call the withdrawToRecipientContributor function
     setShowWithdrawDialog(false);
 
@@ -242,7 +238,6 @@ const SavingPage = () => {
     }
   };
 
-
   const makeFunding = async () => {
     setShowFundingDialog(false);
     const contributionIndex = Number(
@@ -250,7 +245,7 @@ const SavingPage = () => {
     );
     setIsFundingSavingAtIndex(contributionIndex, true);
 
-    const amount = Number(contributions.at(0)?._amount);
+    const amount = Number(showSaving?._amount);
 
     const success = await _fundAmountInSaving(address, {
       _amount: amount,
@@ -258,7 +253,7 @@ const SavingPage = () => {
     });
 
     if (success) {
-      await updateAmountForNewContributorInSaving(address, {
+      await updateAmountForContributorInSaving(address, {
         _amount: amount,
         _savingId: Number(id),
         _newContributorAddress: address as string,
@@ -266,7 +261,6 @@ const SavingPage = () => {
       setSnackbarMessage(`Funding made and records updated.`);
       setShowSnackbar(true);
       setIsFundingSavingAtIndex(contributionIndex, false);
-  
     } else {
       setSnackbarMessage(`Failed. Try again.`);
       setShowSnackbar(true);
@@ -289,18 +283,22 @@ const SavingPage = () => {
           </button>
         )}
 
-{creatingContributor === address && contributions.reduce((acc, contribution) => acc + contribution._amount, 0) > 0 && (
-  <button
-    className="mt-4 bg-pa_three text-pa_one py-2 px-4 rounded border-b-2 border-pa_one"
-    onClick={openWithdrawDialog} // Call handleWithdrawal function on button click
-  >
-    {withdrawing ? (
-      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-pa_one"></div>
-    ) : (
-      "Withdraw current round"
-    )}
-  </button>
-)}
+        {creatingContributor === address &&
+          contributions.reduce(
+            (acc, contribution) => acc + contribution._amount,
+            0
+          ) > 0 && (
+            <button
+              className="mt-4 bg-pa_three text-pa_one py-2 px-4 rounded border-b-2 border-pa_one"
+              onClick={openWithdrawDialog} // Call handleWithdrawal function on button click
+            >
+              {withdrawing ? (
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-pa_one"></div>
+              ) : (
+                "Withdraw current round"
+              )}
+            </button>
+          )}
       </div>
       <div className="">
         <h2 className="text-xl font-bold pt-8 pb-2">All Contributions</h2>
@@ -331,7 +329,7 @@ const SavingPage = () => {
                   "Reveal contributor"
                 )}
               </button>
-              {address === addressesOfContributors?.at(contribution._index)  &&
+              {address === addressesOfContributors?.at(contribution._index) &&
                 contribution._amount === 0 && (
                   <button
                     className="mt-4 ml-4 bg-pa_four text-pa_one font-bold py-2 px-4 rounded"
@@ -421,18 +419,19 @@ const SavingPage = () => {
         isOpen={showFundingDialog} // Pass the state to control the dialog's visibility
         onClose={closeConfirmationDialog} // Function to close the dialog
         onConfirm={makeFunding} // Function to handle confirmation
-        amount={Number(contributions.at(0)?._amount)}
+        amount={Number(showSaving?._amount)}
       />
 
       <WithdrawingDialog
-            isOpen={showWithdrawDialog} // Pass the state to control the dialog's visibility
-            onClose={closeWithdrawDialog} // Function to close the dialog
-            onConfirm={handleWithdrawal} // Function to handle confirmation
-            amount={Number(contributions.reduce((total, contribution) => {
-              return total + contribution._amount;
-            }, 0))}
-            username={String(recipientContributor?._username)}
-      
+        isOpen={showWithdrawDialog} // Pass the state to control the dialog's visibility
+        onClose={closeWithdrawDialog} // Function to close the dialog
+        onConfirm={handleWithdrawal} // Function to handle confirmation
+        amount={Number(
+          contributions.reduce((total, contribution) => {
+            return total + contribution._amount;
+          }, 0)
+        )}
+        username={String(recipientContributor?._username)}
       />
     </div>
   );

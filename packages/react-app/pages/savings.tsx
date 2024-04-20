@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { AnotherSaving, Saving } from "@/utils/types/saving";
+import { Saving } from "@/utils/types/saving";
 import { _fundAmountInSaving } from "@/services/fundAmountInSaving";
 import { useAccount } from "wagmi";
 import Snackbar from "@/components/snackbar";
 import { getSavingsOfContributor } from "@/services/getSavingsOfContributor";
-// import { createNewSaving } from "@/services/createNewSaving";
 import Spinner from "@/components/spinner";
 import { createNewSaving } from "@/services/createNewSaving";
 

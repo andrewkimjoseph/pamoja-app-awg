@@ -35,6 +35,7 @@ export const getSavingsOfContributor = async (
         const saving: Saving = {
           _id: parseInt(fetchedSaving["_id"].toString()),
           _creatingContributor: fetchedSaving["_creatingContributor"],
+          _amount: parseInt(fetchedSaving["_amount"].toString())
         };
 
         savings.push(saving);

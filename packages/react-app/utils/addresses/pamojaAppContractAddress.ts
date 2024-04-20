@@ -1,2 +1,2 @@
 export const pamojaAppContractAddress: string =
-    "0xb0D9D8cDF6f887212E1e69BA043Ddad3D5c6e976";
+    "0x5976D626609c69f986EC7e375eE1168DE54BdF20";
