@@ -8,7 +8,7 @@ import { Saving } from "@/utils/types/saving";
 
 export const getSavingsOfContributor = async (
   _signerAddress: `0x${string}` | undefined,   _contributorAddress: `0x${string}` | undefined
-): Promise<Saving[]> => {
+): Promise <Saving[] > => {
   let savings: Saving[] = [];
   if (window.ethereum) {
     const provider = new providers.Web3Provider(window.ethereum);
@@ -27,6 +27,7 @@ export const getSavingsOfContributor = async (
           _contributorAddress
         );
 
+      
 
       for (let index = 0; index < getSavingsOfContributorTxn.length; index++) {
         const fetchedSaving: any = getSavingsOfContributorTxn[index];
