@@ -36,15 +36,19 @@ Or watch the test video here:
 2. Back-end: Solidity (smart contract)
 3. Deployment: Firebase Hosting
 
-
-# License
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-# Contact
-![Pamoja App Deck](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/a9f0a053-6377-4f14-a08b-816ac9fd4731)
-
 # Important
 ## Pitch Deck
 https://www.canva.com/design/DAGB2m4rLvE/dNex0rlicDvfmJJR2cPl2w/view?utm_content=DAGB2m4rLvE&utm_campaign=designshare&utm_medium=link&utm_source=editor
 ## Demo Video Link
 https://www.canva.com/design/DAGB2m4rLvE/dNex0rlicDvfmJJR2cPl2w/view?utm_content=DAGB2m4rLvE&utm_campaign=designshare&utm_medium=link&utm_source=editor
+## Screenshots
+![8](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/c0f7573a-bd44-4b25-ad1a-8d38eaed2f01)
+![9](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/04d31e11-c820-4d6f-942b-673ff45fa570)
+![10](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/a9daf91d-a52f-4670-8393-30872a3ff523)
+![11](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/f2843a75-67ba-4a57-b540-08a1aa52e9bc)
+![12](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/bde911eb-5162-4d2d-88c9-b661e7778427)
+![13](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/a5f8223b-8e44-40fb-92eb-388574bdc205)
+
+# License
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
