@@ -40,7 +40,7 @@
 ## Pitch Deck
 https://www.canva.com/design/DAGB2m4rLvE/dNex0rlicDvfmJJR2cPl2w/view?utm_content=DAGB2m4rLvE&utm_campaign=designshare&utm_medium=link&utm_source=editor
 ## Demo Video Link
-https://www.canva.com/design/DAGB2m4rLvE/dNex0rlicDvfmJJR2cPl2w/view?utm_content=DAGB2m4rLvE&utm_campaign=designshare&utm_medium=link&utm_source=editor
+...
 ## Screenshots
 ![8](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/c0f7573a-bd44-4b25-ad1a-8d38eaed2f01)
 ![9](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/04d31e11-c820-4d6f-942b-673ff45fa570)
