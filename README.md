@@ -11,7 +11,7 @@
 # Current Features
 ![Features](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/8c256050-28a3-4150-878a-9c9fa247c3f2)
 
-## How to use Pamoja App within MiniPay
+# How to use Pamoja App within MiniPay
 1. Launch MiniPay from Opera Mini.
 2. Enable developer mode.
 3. Navigate to the Discover section in MiniPay.
@@ -38,8 +38,13 @@ Or watch the test video here:
 
 
 # License
-
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 # Contact
 ![Pamoja App Deck](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/a9f0a053-6377-4f14-a08b-816ac9fd4731)
+
+# Important
+## Pitch Deck
+https://www.canva.com/design/DAGB2m4rLvE/dNex0rlicDvfmJJR2cPl2w/view?utm_content=DAGB2m4rLvE&utm_campaign=designshare&utm_medium=link&utm_source=editor
+## Demo Video Link
+https://www.canva.com/design/DAGB2m4rLvE/dNex0rlicDvfmJJR2cPl2w/view?utm_content=DAGB2m4rLvE&utm_campaign=designshare&utm_medium=link&utm_source=editor
