@@ -374,7 +374,7 @@ const SavingPage = () => {
             <h2 className="font-bold mb-4 pt-1">Please note: </h2>
 
             <h2 className="font-normal italic mb-4 pb-4">
-              - They won't be charged
+              - They will not be charged
             </h2>
             <input
               type="text"
