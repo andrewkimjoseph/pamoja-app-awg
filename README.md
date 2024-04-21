@@ -14,27 +14,27 @@
 # How to use Pamoja App within MiniPay
 1. Launch MiniPay from Opera Mini.
 2. Enable developer mode.
-3. Navigate to the Discover section in MiniPay.
-4. Open "Test page - Staging"
+3. Tap the `Discover` icon in MiniPay.
+4. Open `Test page - Staging`.
 5. Enter the URL as `https://pamoja-app-awg.web.app`
-6. Tap Go, and find your way through the app.
+6. Tap `Go`, and find your way through the app.
 
-Or watch the test video here: 
+### Or watch the test video here: 
 
 # How to use this Repository
 1. Fork it.
 2. Clone it on your local machine.
-3. Retrieve the smart contract code from packages/contracts/PamojaApp.sol
+3. Retrieve the smart contract code from `packages/contracts/PamojaApp.sol`
 4. Copy and paste the code on Remix IDE.
-5. Retrieve the deploy smart contract address in packages/react-app/utils/addresses/pamojaAppContractAddress.ts
-6. Paste the address in your Remix IDE in the "At Address" section.
-7. Cd into the repository into the react-app/ folder
-8. Run **npm run dev**, and navigate to `http://localhost:3000`
+5. Retrieve the deploy smart contract address in `packages/react-app/utils/addresses/pamojaAppContractAddress.ts`
+6. Paste the address in your Remix IDE in the `At Address` section.
+7. `cd` into the repository into the `react-app/` folder
+8. Run `npm run dev`, and navigate to `http://localhost:3000`
 
 # Technologies Used
-1. Front-end: Next.js
-2. Back-end: Solidity (smart contract)
-3. Deployment: Firebase Hosting
+1. Front-end: `Next.js`
+2. Back-end: `Solidity (smart contract)`
+3. Deployment: `Firebase Hosting`
 
 # Important
 ## Pitch Deck
