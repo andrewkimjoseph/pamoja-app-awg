@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.19+commit.7dd6d404"
+		"version": "0.8.20+commit.a1b79de6"
 	},
 	"language": "Solidity",
 	"output": {
@@ -706,7 +706,7 @@
 		"compilationTarget": {
 			"packages/contracts/PamojaApp.sol": "PamojaApp"
 		},
-		"evmVersion": "paris",
+		"evmVersion": "shanghai",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -751,11 +751,11 @@
 			]
 		},
 		"packages/contracts/PamojaApp.sol": {
-			"keccak256": "0x41fd6e9abf43271f9837b76f782cc8630cd57d61f8dd2114a1e3736ffa1f6a77",
+			"keccak256": "0x367d1275f600a2043073e0ea5a962acd11276c76026ed7a76f84e62ce6005aff",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://93f08bd0f7f8ccb69196280bb832e5f51cdecab829cdbea865066772bb6935ab",
-				"dweb:/ipfs/QmciyggY24cB59HG9bu89MR17ZkCRB9PDjMw6uQho2Hmm9"
+				"bzz-raw://ff0316e796381c96ffa1b7a933a3eba5100ae2263a85085a63a92af81710e3f0",
+				"dweb:/ipfs/QmYJPnw3Dwm7vLPJQnFoRxmqJpz57ELBDfSYUFBQK87EsB"
 			]
 		}
 	},
