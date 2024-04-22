@@ -20,6 +20,7 @@
 6. Tap `Go`, and find your way through the app.
 
 ### Or watch the test video here: 
+https://www.canva.com/design/DAGDExvf0to/YgYAGwMGuskAm_BKAdH9eg/watch?utm_content=DAGDExvf0to&utm_campaign=designshare&utm_medium=link&utm_source=editor
 
 # How to use this Repository
 1. Fork it.
