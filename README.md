@@ -1,4 +1,3 @@
-
 ![Untitled design](https://github.com/andrewkimjoseph/pamoja-app-awg/assets/91619206/1c6704da-f3b9-47bb-96a8-1e1d734930b8)
 
 <p align="center"> 
@@ -39,7 +38,7 @@ https://www.canva.com/design/DAGDExvf0to/YgYAGwMGuskAm_BKAdH9eg/watch?utm_conten
 
 # Important
 ## Pitch Deck
-https://www.canva.com/design/DAGB2m4rLvE/dNex0rlicDvfmJJR2cPl2w/view?utm_content=DAGB2m4rLvE&utm_campaign=designshare&utm_medium=link&utm_source=editor
+https://www.canva.com/design/DAGB2m4rLvE/U6KtBhFcpsSbz38iFNl23g/edit?utm_content=DAGB2m4rLvE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 ## Project Demo Link
 https://pamoja-app-awg.web.app/
 
