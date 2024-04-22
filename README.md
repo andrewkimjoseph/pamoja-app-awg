@@ -40,7 +40,7 @@ https://www.canva.com/design/DAGDExvf0to/YgYAGwMGuskAm_BKAdH9eg/watch?utm_conten
 # Important
 ## Pitch Deck
 https://www.canva.com/design/DAGB2m4rLvE/dNex0rlicDvfmJJR2cPl2w/view?utm_content=DAGB2m4rLvE&utm_campaign=designshare&utm_medium=link&utm_source=editor
-## Demo Video Link
+## Project Demo Link
 https://pamoja-app-awg.web.app/
 
 ## Screenshots
