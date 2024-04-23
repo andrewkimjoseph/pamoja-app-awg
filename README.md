@@ -19,7 +19,7 @@
 6. Tap `Go`, and find your way through the app.
 
 ### Or watch the test video here: 
-https://www.canva.com/design/DAGDExvf0to/YgYAGwMGuskAm_BKAdH9eg/watch?utm_content=DAGDExvf0to&utm_campaign=designshare&utm_medium=link&utm_source=editor
+https://www.canva.com/design/DAGDNcCZ7qk/28Hs95O_Ii0_-yKTA-kyJA/watch?utm_content=DAGDNcCZ7qk&utm_campaign=designshare&utm_medium=link&utm_source=editor
 
 # How to use this Repository
 1. Fork it.
@@ -39,6 +39,14 @@ https://www.canva.com/design/DAGDExvf0to/YgYAGwMGuskAm_BKAdH9eg/watch?utm_conten
 # Important
 ## Pitch Deck
 https://www.canva.com/design/DAGB2m4rLvE/U6KtBhFcpsSbz38iFNl23g/edit?utm_content=DAGB2m4rLvE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+## Pitch Deck Video
+https://www.canva.com/design/DAGB2m4rLvE/dNex0rlicDvfmJJR2cPl2w/view?utm_content=DAGB2m4rLvE&utm_campaign=designshare&utm_medium=link&utm_source=editor
+
+## Project Demo Video
+https://www.canva.com/design/DAGDNcCZ7qk/28Hs95O_Ii0_-yKTA-kyJA/watch?utm_content=DAGDNcCZ7qk&utm_campaign=designshare&utm_medium=link&utm_source=editor
+## Pitch Deck Video and Project Demo Video (Combined)
+https://www.canva.com/design/DAGDExvf0to/YgYAGwMGuskAm_BKAdH9eg/watch?utm_content=DAGDExvf0to&utm_campaign=designshare&utm_medium=link&utm_source=editor
+
 ## Project Demo Link
 https://pamoja-app-awg.web.app/
 
