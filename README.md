@@ -18,7 +18,7 @@
 5. Enter the URL as `https://pamoja-app-awg.web.app`
 6. Tap `Go`, and find your way through the app.
 
-### Or watch the test video here: 
+### Or watch a video demo of the product here: 
 https://www.canva.com/design/DAGDNcCZ7qk/28Hs95O_Ii0_-yKTA-kyJA/watch?utm_content=DAGDNcCZ7qk&utm_campaign=designshare&utm_medium=link&utm_source=editor
 
 # How to use this Repository
